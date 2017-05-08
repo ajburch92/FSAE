@@ -1,0 +1,1196 @@
+EESchema Schematic File Version 2
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:FSAE-cache
+EELAYER 25 0
+EELAYER END
+$Descr USLetter 11000 8500
+encoding utf-8
+Sheet 1 1
+Title "2016 Formula SAE DAQ Circuit"
+Date "2016-04-11"
+Rev "1"
+Comp "Texas A&M University"
+Comment1 "2016 Formula SAE"
+Comment2 "DAQ Circuit"
+Comment3 "Designed by Tong Lu, Austin Burch, Mannual Rodriguez"
+Comment4 ""
+$EndDescr
+$Comp
+L CONN_02X05 CONNECTOR1
+U 1 1 57049A93
+P 1850 1050
+F 0 "CONNECTOR1" H 1850 1350 50  0000 C CNN
+F 1 "CONN_02X05" H 1850 750 50  0000 C CNN
+F 2 "Socket_Strips:Socket_Strip_Straight_2x05" H 1850 -150 50  0001 C CNN
+F 3 "" H 1850 -150 50  0000 C CNN
+	1    1850 1050
+	1    0    0    -1  
+$EndComp
+$Comp
+L CONN_02X05 CONNECTOR3
+U 1 1 57049BF7
+P 1850 2450
+F 0 "CONNECTOR3" H 1850 2750 50  0000 C CNN
+F 1 "CONN_02X05" H 1850 2150 50  0000 C CNN
+F 2 "Socket_Strips:Socket_Strip_Straight_2x05" H 1850 1250 50  0001 C CNN
+F 3 "" H 1850 1250 50  0000 C CNN
+	1    1850 2450
+	1    0    0    -1  
+$EndComp
+Text Label 2150 1250 0    60   ~ 0
+5V
+Text Label 2150 1150 0    60   ~ 0
+5V
+Text Label 2150 950  0    60   ~ 0
+GND
+Text Label 2150 850  0    60   ~ 0
+GND
+Text Label 1550 1150 2    60   ~ 0
+FR_SHOCK_POT_5V_IN
+Text Label 1550 1050 2    60   ~ 0
+FL_SHOCK_POT_5V_IN
+Text Label 1550 950  2    60   ~ 0
+BR_SHOCK_POT_5V_IN
+Text Label 1550 850  2    60   ~ 0
+BL_SHOCK_POT_5V_IN
+Text Label 2150 2250 0    60   ~ 0
+GND
+Text Label 2150 2450 0    60   ~ 0
+3V3
+Text Label 750  2650 0    60   ~ 0
+DASH_BUTTON_SR
+Text Label 750  2550 0    60   ~ 0
+DASH_LED_SR_3V3
+NoConn ~ 1600 2450
+$Comp
+L CONN_02X05 CONNECTOR2
+U 1 1 5705C1FE
+P 1850 1750
+F 0 "CONNECTOR2" H 1850 2050 50  0000 C CNN
+F 1 "CONN_02X05" H 1850 1450 50  0000 C CNN
+F 2 "Socket_Strips:Socket_Strip_Straight_2x05" H 1850 550 50  0001 C CNN
+F 3 "" H 1850 550 50  0000 C CNN
+	1    1850 1750
+	1    0    0    -1  
+$EndComp
+$Comp
+L CONN_02X05 CONNECTOR4
+U 1 1 5705C234
+P 1850 3150
+F 0 "CONNECTOR4" H 1850 3450 50  0000 C CNN
+F 1 "CONN_02X05" H 1850 2850 50  0000 C CNN
+F 2 "Socket_Strips:Socket_Strip_Straight_2x05" H 1850 1950 50  0001 C CNN
+F 3 "" H 1850 1950 50  0000 C CNN
+	1    1850 3150
+	1    0    0    -1  
+$EndComp
+$Comp
+L CONN_01X10 16_BIT_ADC_1
+U 1 1 5705C63D
+P 3000 2500
+F 0 "16_BIT_ADC_1" H 3000 3050 50  0000 C CNN
+F 1 "CONN_01X10" V 3100 2500 50  0000 C CNN
+F 2 "Socket_Strips:Socket_Strip_Straight_1x10" H 3000 2500 50  0001 C CNN
+F 3 "" H 3000 2500 50  0000 C CNN
+	1    3000 2500
+	-1   0    0    1   
+$EndComp
+$Comp
+L CONN_01X10 16_BIT_ADC_2
+U 1 1 5705C6F6
+P 3000 3700
+F 0 "16_BIT_ADC_2" H 3000 4250 50  0000 C CNN
+F 1 "CONN_01X10" V 3100 3700 50  0000 C CNN
+F 2 "Socket_Strips:Socket_Strip_Straight_1x10" H 3000 3700 50  0001 C CNN
+F 3 "" H 3000 3700 50  0000 C CNN
+	1    3000 3700
+	-1   0    0    1   
+$EndComp
+$Comp
+L CONN_01X10 12_BIT_ADC1
+U 1 1 5706DC2F
+P 3000 1300
+F 0 "12_BIT_ADC1" H 3000 1850 50  0000 C CNN
+F 1 "CONN_01X10" V 3100 1300 50  0000 C CNN
+F 2 "Socket_Strips:Socket_Strip_Straight_1x10" H 3000 1300 50  0001 C CNN
+F 3 "" H 3000 1300 50  0000 C CNN
+	1    3000 1300
+	-1   0    0    1   
+$EndComp
+Text Label 3250 850  0    60   ~ 0
+BL_SHOCK_POT_5V_OUT
+Text Label 3250 950  0    60   ~ 0
+BR_SHOCK_POT_5V_OUT
+Text Label 3250 1050 0    60   ~ 0
+FL_SHOCK_POT_5V_OUT
+Text Label 3250 1150 0    60   ~ 0
+FR_SHOCK_POT_5V_OUT
+Text Label 3250 1750 0    60   ~ 0
+5V
+Text Label 3250 1650 0    60   ~ 0
+GND
+Text Label 3250 1550 0    60   ~ 0
+SCL_5V
+Text Label 3250 1450 0    60   ~ 0
+SDA_5V
+Text Label 3250 2950 0    60   ~ 0
+5V
+Text Label 3250 2850 0    60   ~ 0
+GND
+Text Label 3250 2750 0    60   ~ 0
+SCL_5V
+Text Label 3250 2650 0    60   ~ 0
+SDA_5V
+Text Label 3250 4150 0    60   ~ 0
+5V
+Text Label 3250 4050 0    60   ~ 0
+GND
+Text Label 3250 3950 0    60   ~ 0
+SCL_5V
+Text Label 3250 3850 0    60   ~ 0
+SDA_5V
+$Comp
+L CONN_01X09 GPS1
+U 1 1 5706DF66
+P 7950 4000
+F 0 "GPS1" H 7950 4500 50  0000 C CNN
+F 1 "CONN_01X09" V 8050 4000 50  0000 C CNN
+F 2 "Socket_Strips:Socket_Strip_Straight_1x09" H 7950 4000 50  0001 C CNN
+F 3 "" H 7950 4000 50  0000 C CNN
+	1    7950 4000
+	-1   0    0    1   
+$EndComp
+Text Label 8200 3700 0    60   ~ 0
+3V3
+Text Label 8200 3800 0    60   ~ 0
+GND
+Text Label 8200 3900 0    60   ~ 0
+TX(RPI)
+Text Label 8200 4000 0    60   ~ 0
+RX(RPI)
+$Comp
+L CONN_01X06 CURRENT_SENSOR1
+U 1 1 5706E836
+P 3000 4850
+F 0 "CURRENT_SENSOR1" H 3000 5200 50  0000 C CNN
+F 1 "CONN_01X06" V 3100 4850 50  0000 C CNN
+F 2 "Socket_Strips:Socket_Strip_Straight_1x06" H 3000 4850 50  0001 C CNN
+F 3 "" H 3000 4850 50  0000 C CNN
+	1    3000 4850
+	-1   0    0    1   
+$EndComp
+Text Label 3250 4800 0    60   ~ 0
+SDA_3V3
+Text Label 3250 4900 0    60   ~ 0
+SCL_3V3
+Text Label 3250 5000 0    60   ~ 0
+GND
+Text Label 3250 5100 0    60   ~ 0
+3V3
+$Comp
+L CONN_01X06 LC1_3V3
+U 1 1 5706EC97
+P 5550 1050
+F 0 "LC1_3V3" H 5550 1400 50  0000 C CNN
+F 1 "CONN_01X06" V 5650 1050 50  0000 C CNN
+F 2 "Socket_Strips:Socket_Strip_Straight_1x06" H 5550 1050 50  0001 C CNN
+F 3 "" H 5550 1050 50  0000 C CNN
+	1    5550 1050
+	1    0    0    1   
+$EndComp
+$Comp
+L CONN_01X06 LC1_5V1
+U 1 1 5706EE42
+P 5900 1050
+F 0 "LC1_5V1" H 5900 1400 50  0000 C CNN
+F 1 "CONN_01X06" V 6000 1050 50  0000 C CNN
+F 2 "Socket_Strips:Socket_Strip_Straight_1x06" H 5900 1050 50  0001 C CNN
+F 3 "" H 5900 1050 50  0000 C CNN
+	1    5900 1050
+	-1   0    0    1   
+$EndComp
+Text Label 4500 800  0    60   ~ 0
+3V3
+Text Label 6250 800  0    60   ~ 0
+5V
+Text Label 6250 900  0    60   ~ 0
+SDA_5V
+Text Label 6250 1000 0    60   ~ 0
+SCL_5V
+Text Label 6250 1300 0    60   ~ 0
+GND
+Text Label 4500 1300 0    60   ~ 0
+GND
+Text Label 4500 1000 0    60   ~ 0
+SCL_3V3
+Text Label 4500 900  0    60   ~ 0
+SDA_3V3
+$Comp
+L CONN_01X06 LC2_3V3
+U 1 1 5706F561
+P 5550 1900
+F 0 "LC2_3V3" H 5550 2250 50  0000 C CNN
+F 1 "CONN_01X06" V 5650 1900 50  0000 C CNN
+F 2 "Socket_Strips:Socket_Strip_Straight_1x06" H 5550 1900 50  0001 C CNN
+F 3 "" H 5550 1900 50  0000 C CNN
+	1    5550 1900
+	1    0    0    1   
+$EndComp
+$Comp
+L CONN_01X06 LC2_5V1
+U 1 1 5706F567
+P 5900 1900
+F 0 "LC2_5V1" H 5900 2250 50  0000 C CNN
+F 1 "CONN_01X06" V 6000 1900 50  0000 C CNN
+F 2 "Socket_Strips:Socket_Strip_Straight_1x06" H 5900 1900 50  0001 C CNN
+F 3 "" H 5900 1900 50  0000 C CNN
+	1    5900 1900
+	-1   0    0    1   
+$EndComp
+Text Label 4700 1650 0    60   ~ 0
+3V3
+Text Label 6250 1650 0    60   ~ 0
+5V
+Text Label 4700 2150 0    60   ~ 0
+GND
+Text Label 6200 2150 0    60   ~ 0
+GND
+Wire Wire Line
+	2100 1250 2350 1250
+Wire Wire Line
+	2100 1150 2350 1150
+Wire Wire Line
+	2100 950  2350 950 
+Wire Wire Line
+	2100 850  2350 850 
+Wire Wire Line
+	1600 1150 750  1150
+Wire Wire Line
+	1600 1050 750  1050
+Wire Wire Line
+	1600 950  750  950 
+Wire Wire Line
+	1600 850  750  850 
+Wire Wire Line
+	2100 2250 2350 2250
+Wire Wire Line
+	2100 2450 2350 2450
+Wire Wire Line
+	650  2650 1600 2650
+Wire Wire Line
+	650  2550 1600 2550
+Wire Wire Line
+	3200 850  4100 850 
+Wire Wire Line
+	3200 950  4100 950 
+Wire Wire Line
+	3200 1050 4100 1050
+Wire Wire Line
+	3200 1150 4100 1150
+Wire Wire Line
+	3200 1750 4100 1750
+Wire Wire Line
+	3200 1650 4100 1650
+Wire Wire Line
+	3200 1550 4100 1550
+Wire Wire Line
+	3200 1450 4100 1450
+Wire Wire Line
+	3200 2950 4100 2950
+Wire Wire Line
+	3200 2850 4100 2850
+Wire Wire Line
+	3200 2750 4100 2750
+Wire Wire Line
+	3200 2650 4100 2650
+Wire Wire Line
+	3200 4150 4100 4150
+Wire Wire Line
+	3200 4050 4100 4050
+Wire Wire Line
+	3200 3950 4100 3950
+Wire Wire Line
+	3200 3850 4100 3850
+Wire Wire Line
+	8150 3700 9050 3700
+Wire Wire Line
+	8150 3800 9050 3800
+Wire Wire Line
+	8150 3900 9050 3900
+Wire Wire Line
+	8150 4000 9050 4000
+Wire Wire Line
+	3200 4800 4050 4800
+Wire Wire Line
+	3200 4900 4050 4900
+Wire Wire Line
+	3200 5000 4050 5000
+Wire Wire Line
+	3200 5100 4050 5100
+Wire Wire Line
+	5350 800  4400 800 
+Wire Wire Line
+	6100 800  6900 800 
+Wire Wire Line
+	6100 900  6900 900 
+Wire Wire Line
+	6100 1000 6900 1000
+Wire Wire Line
+	6100 1300 6900 1300
+Wire Wire Line
+	5350 900  4400 900 
+Wire Wire Line
+	5350 1000 4400 1000
+Wire Wire Line
+	5350 1300 4400 1300
+Wire Wire Line
+	5350 1650 4600 1650
+Wire Wire Line
+	6100 1650 6900 1650
+Wire Wire Line
+	6100 2150 6900 2150
+Wire Wire Line
+	5350 2150 4600 2150
+Wire Wire Line
+	1600 1950 750  1950
+Wire Wire Line
+	1600 1850 750  1850
+Wire Wire Line
+	1600 1750 750  1750
+Wire Wire Line
+	1600 1650 750  1650
+Wire Wire Line
+	1600 1550 750  1550
+Wire Wire Line
+	2100 1950 2750 1950
+Wire Wire Line
+	2100 1750 2750 1750
+Text Label 2200 1950 0    60   ~ 0
+3V3
+Text Label 2200 1750 0    60   ~ 0
+GND
+Text Label 850  1950 0    60   ~ 0
+SDA_3V3
+Text Label 850  1850 0    60   ~ 0
+SCL_3V3
+Text Label 850  1750 0    60   ~ 0
+CAN_HI
+Text Label 850  1650 0    60   ~ 0
+CAN_LO
+Text Label 850  1550 0    60   ~ 0
+FUEL_IN
+Wire Wire Line
+	1600 2950 650  2950
+Wire Wire Line
+	650  3050 1600 3050
+Wire Wire Line
+	1600 3150 650  3150
+Wire Wire Line
+	1600 3250 650  3250
+Wire Wire Line
+	1600 3350 650  3350
+Wire Wire Line
+	2100 2950 2750 2950
+Wire Wire Line
+	2100 3350 2750 3350
+Text Label 2150 3350 0    60   ~ 0
+5V
+Text Label 800  3150 0    60   ~ 0
+FRONT_BRAKE_-_IN
+Text Label 2100 2950 0    60   ~ 0
+PITOT_TUBE_IN
+Text Label 800  2950 0    60   ~ 0
+STEERING_SIGNAL_IN
+Wire Wire Line
+	3200 3250 4100 3250
+Wire Wire Line
+	3200 3350 4100 3350
+Wire Wire Line
+	3200 3550 4100 3550
+Wire Wire Line
+	3200 3450 4100 3450
+Text Label 800  3050 0    60   ~ 0
+FRONT_BRAKE_+_IN
+Text Label 800  3250 0    60   ~ 0
+REAR_BRAKE_+_IN
+Text Label 800  3350 0    60   ~ 0
+REAR_BREAK_-_IN
+Wire Wire Line
+	2100 3150 2750 3150
+Text Label 2150 3150 0    60   ~ 0
+GND
+NoConn ~ 2100 3250
+NoConn ~ 2100 1650
+NoConn ~ 2100 1850
+NoConn ~ 3200 3650
+NoConn ~ 3200 2450
+NoConn ~ 3200 1250
+NoConn ~ 8150 3600
+NoConn ~ 8150 4100
+NoConn ~ 8150 4200
+NoConn ~ 8150 4300
+NoConn ~ 8150 4400
+Wire Wire Line
+	6750 2650 5850 2650
+Wire Wire Line
+	5850 2750 6750 2750
+Wire Wire Line
+	6750 3250 5850 3250
+Wire Wire Line
+	4400 2850 5350 2850
+Wire Wire Line
+	4400 2950 5350 2950
+Text Label 5950 2650 0    60   ~ 0
+SDA_3V3
+Text Label 5950 2750 0    60   ~ 0
+SCL_3V3
+Text Label 5900 3250 0    60   ~ 0
+DASH_LED_SR_3V3
+Text Label 4500 2850 0    60   ~ 0
+TX(RPI)
+Text Label 4500 2950 0    60   ~ 0
+RX(RPI)
+Wire Wire Line
+	6750 2950 5850 2950
+Text Label 5950 2950 0    60   ~ 0
+GND
+Wire Wire Line
+	4400 3350 5350 3350
+Wire Wire Line
+	4400 3650 5350 3650
+Wire Wire Line
+	6750 3450 5850 3450
+Wire Wire Line
+	6750 3550 5850 3550
+Wire Wire Line
+	6750 3650 5850 3650
+Text Label 5900 3450 0    60   ~ 0
+SPI_MOSI
+Text Label 5900 3550 0    60   ~ 0
+SPI_MISO
+Text Label 4500 3650 0    60   ~ 0
+SPI_CE0
+Text Label 4500 3350 0    60   ~ 0
+DASH_BUTTON_SR
+Text Label 3250 3350 0    60   ~ 0
+REAR_BRAKE_+_OUT
+Text Label 3250 3250 0    60   ~ 0
+REAR_BRAKE_-_OUT
+Text Label 3250 3550 0    60   ~ 0
+STEERING_SIGNAL_OUT
+Text Label 3250 3450 0    60   ~ 0
+PITOT_TUBE_OUT
+$Comp
+L CONN_01X07 CAN_SPI1
+U 1 1 5707754C
+P 7950 3050
+F 0 "CAN_SPI1" H 7950 3450 50  0000 C CNN
+F 1 "CONN_01X07" V 8050 3050 50  0000 C CNN
+F 2 "Socket_Strips:Socket_Strip_Straight_1x07" H 7950 3050 50  0001 C CNN
+F 3 "" H 7950 3050 50  0000 C CNN
+	1    7950 3050
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	8150 2750 9000 2750
+Wire Wire Line
+	8150 2850 9000 2850
+Wire Wire Line
+	8150 2950 9000 2950
+Wire Wire Line
+	8150 3050 9000 3050
+Wire Wire Line
+	8150 3150 9000 3150
+Wire Wire Line
+	8150 3250 9000 3250
+Wire Wire Line
+	8150 3350 9000 3350
+Text Label 8200 2750 0    60   ~ 0
+INT
+Text Label 8200 2850 0    60   ~ 0
+SPI_SCLK
+Text Label 8200 2950 0    60   ~ 0
+SPI_MOSI
+Text Label 8200 3050 0    60   ~ 0
+SPI_MISO
+Text Label 8200 3150 0    60   ~ 0
+SPI_CE0
+Text Label 8200 3350 0    60   ~ 0
+3V3
+Text Label 8200 3250 0    60   ~ 0
+GND
+Text Label 5900 3650 0    60   ~ 0
+SPI_SCLK
+NoConn ~ 6100 1200
+NoConn ~ 5350 1200
+NoConn ~ 5850 2550
+NoConn ~ 5850 3050
+NoConn ~ 5850 3150
+NoConn ~ 5850 3350
+NoConn ~ 5850 3750
+NoConn ~ 5350 3750
+NoConn ~ 5350 3150
+NoConn ~ 5350 3050
+NoConn ~ 5350 2550
+NoConn ~ 6100 1950
+NoConn ~ 6100 2050
+NoConn ~ 5350 2050
+NoConn ~ 5350 1950
+$Comp
+L CONN_02X05 CONNECTOR5
+U 1 1 5707AA2F
+P 1850 3850
+F 0 "CONNECTOR5" H 1850 4150 50  0000 C CNN
+F 1 "CONN_02X05" H 1850 3550 50  0000 C CNN
+F 2 "Socket_Strips:Socket_Strip_Straight_2x05" H 1850 2650 50  0001 C CNN
+F 3 "" H 1850 2650 50  0000 C CNN
+	1    1850 3850
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2100 3750 2750 3750
+Wire Wire Line
+	2100 3950 2750 3950
+Wire Wire Line
+	1000 3750 1600 3750
+Wire Wire Line
+	1000 3950 1600 3950
+Text Label 2500 3950 2    60   ~ 0
+3V3
+Text Label 2500 3750 2    60   ~ 0
+GND
+Text Label 1150 3950 0    60   ~ 0
+SDA_3V3
+Text Label 1150 3750 0    60   ~ 0
+SCL_3V3
+$Comp
+L CONN_01X03 VOLTAGE_REGULATOR1
+U 1 1 57073049
+P 1800 4550
+F 0 "VOLTAGE_REGULATOR1" H 1800 4750 50  0000 C CNN
+F 1 "CONN_01X03" V 1900 4550 50  0000 C CNN
+F 2 "Socket_Strips:Socket_Strip_Angled_1x03" H 1800 4550 50  0001 C CNN
+F 3 "" H 1800 4550 50  0000 C CNN
+	1    1800 4550
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	2000 4450 2500 4450
+Wire Wire Line
+	2000 4550 2500 4550
+Wire Wire Line
+	2000 4650 2500 4650
+Text Label 2050 4450 0    60   ~ 0
+GND
+Text Label 2050 4550 0    60   ~ 0
+3V3
+Text Label 2050 4650 0    60   ~ 0
+5V
+NoConn ~ 1600 3650
+NoConn ~ 1600 3850
+NoConn ~ 1600 4050
+NoConn ~ 2100 3850
+NoConn ~ 1600 1250
+NoConn ~ 2100 1050
+NoConn ~ 1600 2250
+NoConn ~ 1600 2350
+NoConn ~ 6100 1100
+NoConn ~ 5350 1100
+$Comp
+L CONN_02X08 ANALOG_FILTER_OUT1
+U 1 1 570AC76F
+P 8350 1150
+F 0 "ANALOG_FILTER_OUT1" H 8350 1600 50  0000 C CNN
+F 1 "CONN_02X08" V 8350 1150 50  0000 C CNN
+F 2 "Socket_Strips:Socket_Strip_Straight_2x08" H 8350 -50 50  0001 C CNN
+F 3 "" H 8350 -50 50  0000 C CNN
+	1    8350 1150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7250 800  8100 800 
+Wire Wire Line
+	8600 1500 9550 1500
+Text Label 7700 800  0    60   ~ 0
+5V
+Text Label 8750 1500 0    60   ~ 0
+GND
+Text Label 8050 1200 2    60   ~ 0
+FR_SHOCK_POT_5V_OUT
+Text Label 8050 1300 2    60   ~ 0
+FL_SHOCK_POT_5V_OUT
+Text Label 8050 1400 2    60   ~ 0
+BR_SHOCK_POT_5V_OUT
+Text Label 8050 1500 2    60   ~ 0
+BL_SHOCK_POT_5V_OUT
+Wire Wire Line
+	8100 1200 7250 1200
+Wire Wire Line
+	8100 1300 7250 1300
+Wire Wire Line
+	8100 1400 7250 1400
+Wire Wire Line
+	8100 1500 7250 1500
+Wire Wire Line
+	9550 1000 8600 1000
+Wire Wire Line
+	9550 900  8600 900 
+Text Label 8750 1000 0    60   ~ 0
+REAR_BRAKE_+_OUT
+Text Label 8750 900  0    60   ~ 0
+REAR_BREAK_-_OUT
+Wire Wire Line
+	9550 1300 8600 1300
+Text Label 8750 1300 0    60   ~ 0
+STEERING_SIGNAL_OUT
+Wire Wire Line
+	8600 1400 9550 1400
+Text Label 8750 1400 0    60   ~ 0
+PITOT_TUBE_OUT
+$Comp
+L CONN_01X14 TENNSY_LEFT1
+U 1 1 570B42C4
+P 7950 5400
+F 0 "TENNSY_LEFT1" H 7950 6150 50  0000 C CNN
+F 1 "CONN_01X14" V 8050 5400 50  0000 C CNN
+F 2 "Socket_Strips:Socket_Strip_Straight_1x14" H 7950 5400 50  0001 C CNN
+F 3 "" H 7950 5400 50  0000 C CNN
+	1    7950 5400
+	1    0    0    -1  
+$EndComp
+$Comp
+L CONN_01X14 TENNSY_RIGHT1
+U 1 1 570B4410
+P 8550 5400
+F 0 "TENNSY_RIGHT1" H 8550 6150 50  0000 C CNN
+F 1 "CONN_01X14" V 8650 5400 50  0000 C CNN
+F 2 "Socket_Strips:Socket_Strip_Straight_1x14" H 8550 5400 50  0001 C CNN
+F 3 "" H 8550 5400 50  0000 C CNN
+	1    8550 5400
+	-1   0    0    -1  
+$EndComp
+$Comp
+L CONN_01X05 TENNSY_BOTTOM1
+U 1 1 570B446C
+P 8250 6050
+F 0 "TENNSY_BOTTOM1" H 8250 6350 50  0000 C CNN
+F 1 "CONN_01X05" V 8350 6050 50  0000 C CNN
+F 2 "Socket_Strips:Socket_Strip_Straight_1x05" H 8250 6050 50  0001 C CNN
+F 3 "" H 8250 6050 50  0000 C CNN
+	1    8250 6050
+	0    1    -1   0   
+$EndComp
+$Comp
+L CONN_01X06 RTC1
+U 1 1 570B60DA
+P 3000 5650
+F 0 "RTC1" H 3000 6000 50  0000 C CNN
+F 1 "CONN_01X06" V 3100 5650 50  0000 C CNN
+F 2 "Socket_Strips:Socket_Strip_Straight_1x06" H 3000 5650 50  0001 C CNN
+F 3 "" H 3000 5650 50  0000 C CNN
+	1    3000 5650
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	3200 5600 4050 5600
+Wire Wire Line
+	3200 5700 4050 5700
+Wire Wire Line
+	3200 5800 4050 5800
+Wire Wire Line
+	3200 5900 4050 5900
+Wire Wire Line
+	3200 5400 4050 5400
+Wire Wire Line
+	3200 5500 4050 5500
+Text Label 3250 5900 0    60   ~ 0
+GND
+Text Label 3250 5800 0    60   ~ 0
+3V3
+Text Label 3250 5700 0    60   ~ 0
+SDA_3V3
+Text Label 3250 5600 0    60   ~ 0
+SCL_3V3
+Text Label 3250 5500 0    60   ~ 0
+SQW
+Text Label 3250 5400 0    60   ~ 0
+32K
+$Comp
+L CONN_02X08 ANALOG_FILTER_IN1
+U 1 1 570B6B5C
+P 8350 2050
+F 0 "ANALOG_FILTER_IN1" H 8350 2500 50  0000 C CNN
+F 1 "CONN_02X08" V 8350 2050 50  0000 C CNN
+F 2 "Socket_Strips:Socket_Strip_Straight_2x08" H 8350 850 50  0001 C CNN
+F 3 "" H 8350 850 50  0000 C CNN
+	1    8350 2050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7250 1700 8100 1700
+Wire Wire Line
+	8600 2400 9550 2400
+Text Label 7700 1700 0    60   ~ 0
+5V
+Text Label 8750 2400 0    60   ~ 0
+GND
+Text Label 8050 2100 2    60   ~ 0
+FR_SHOCK_POT_5V_IN
+Text Label 8050 2200 2    60   ~ 0
+FL_SHOCK_POT_5V_IN
+Text Label 8050 2300 2    60   ~ 0
+BR_SHOCK_POT_5V_IN
+Text Label 8050 2400 2    60   ~ 0
+BL_SHOCK_POT_5V_IN
+Wire Wire Line
+	8100 2100 7250 2100
+Wire Wire Line
+	8100 2200 7250 2200
+Wire Wire Line
+	8100 2300 7250 2300
+Wire Wire Line
+	8100 2400 7250 2400
+Wire Wire Line
+	9550 1900 8600 1900
+Wire Wire Line
+	9550 1800 8600 1800
+Text Label 8750 1900 0    60   ~ 0
+REAR_BRAKE_+_IN
+Text Label 8750 1800 0    60   ~ 0
+REAR_BREAK_-_IN
+Wire Wire Line
+	9550 2200 8600 2200
+Text Label 8750 2200 0    60   ~ 0
+STEERING_SIGNAL_IN
+Wire Wire Line
+	8600 2300 9550 2300
+Text Label 8750 2300 0    60   ~ 0
+PITOT_TUBE_IN
+NoConn ~ 2100 1550
+Wire Wire Line
+	8100 900  7250 900 
+Wire Wire Line
+	8100 1800 7250 1800
+Text Label 7600 900  0    60   ~ 0
+FUEL_OUT
+Text Label 7350 1800 0    60   ~ 0
+FUEL_IN
+Wire Wire Line
+	3200 2350 4100 2350
+Text Label 3250 2350 0    60   ~ 0
+FUEL_OUT
+NoConn ~ 3200 2050
+NoConn ~ 7750 4850
+NoConn ~ 7750 4950
+NoConn ~ 7750 5250
+NoConn ~ 7750 5350
+NoConn ~ 7750 5450
+NoConn ~ 7750 5550
+NoConn ~ 7750 5650
+NoConn ~ 7750 5750
+NoConn ~ 7750 5850
+NoConn ~ 7750 5950
+NoConn ~ 7750 6050
+NoConn ~ 8750 6050
+NoConn ~ 8750 5950
+NoConn ~ 8750 5850
+NoConn ~ 8750 5750
+NoConn ~ 8750 5650
+NoConn ~ 8750 5550
+NoConn ~ 8750 5250
+NoConn ~ 8750 5150
+NoConn ~ 8750 4850
+NoConn ~ 8750 4950
+NoConn ~ 8750 5050
+NoConn ~ 8450 6250
+NoConn ~ 8350 6250
+NoConn ~ 8250 6250
+NoConn ~ 8150 6250
+NoConn ~ 8050 6250
+NoConn ~ 5850 2850
+NoConn ~ 5350 2750
+NoConn ~ 5350 2650
+NoConn ~ 5350 3250
+NoConn ~ 5350 3450
+Wire Wire Line
+	3200 4600 4050 4600
+Wire Wire Line
+	4050 4700 3200 4700
+Text Label 3250 4700 0    60   ~ 0
+FRONT_BRAKE_-_IN
+Text Label 3250 4600 0    60   ~ 0
+FRONT_BRAKE_+_IN
+$Comp
+L CONN_01X07 DIVIDER_LEFT1
+U 1 1 570B48CB
+P 4850 5050
+F 0 "DIVIDER_LEFT1" H 4850 5450 50  0000 C CNN
+F 1 "CONN_01X07" V 4950 5050 50  0000 C CNN
+F 2 "Socket_Strips:Socket_Strip_Straight_1x07" H 4850 5050 50  0001 C CNN
+F 3 "" H 4850 5050 50  0000 C CNN
+	1    4850 5050
+	1    0    0    -1  
+$EndComp
+$Comp
+L CONN_01X07 DIVIDER_RIGHT1
+U 1 1 570B494E
+P 5200 5050
+F 0 "DIVIDER_RIGHT1" H 5200 5450 50  0000 C CNN
+F 1 "CONN_01X07" V 5300 5050 50  0000 C CNN
+F 2 "Socket_Strips:Socket_Strip_Straight_1x07" H 5200 5050 50  0001 C CNN
+F 3 "" H 5200 5050 50  0000 C CNN
+	1    5200 5050
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	5400 4950 5800 4950
+Text Label 5450 4950 0    60   ~ 0
+CKB_QA
+Wire Wire Line
+	4250 4750 4650 4750
+Text Label 4300 4750 0    60   ~ 0
+CKB_QA
+Wire Wire Line
+	5400 4750 5800 4750
+Text Label 5450 4750 0    60   ~ 0
+SQW
+Wire Wire Line
+	4650 5150 4250 5150
+Text Label 4300 5150 0    60   ~ 0
+5V
+Wire Wire Line
+	5400 5150 5800 5150
+Text Label 5450 5150 0    60   ~ 0
+GND
+Wire Wire Line
+	4400 3550 5350 3550
+Text Label 4500 3550 0    60   ~ 0
+INTERRUPT
+NoConn ~ 4650 4850
+NoConn ~ 4650 4950
+NoConn ~ 4650 5050
+NoConn ~ 4650 5250
+NoConn ~ 4650 5350
+NoConn ~ 5400 4850
+Wire Wire Line
+	8750 4750 9050 4750
+Wire Wire Line
+	7750 4750 7400 4750
+Text Label 7500 4750 0    60   ~ 0
+GND
+$Comp
+L CONN_02X13 RP1
+U 1 1 570C0295
+P 5600 3150
+F 0 "RP1" H 5600 3850 50  0000 C CNN
+F 1 "CONN_02X13" V 5600 3150 50  0000 C CNN
+F 2 "Socket_Strips:Socket_Strip_Straight_2x13" H 5600 2000 50  0001 C CNN
+F 3 "" H 5600 2000 50  0000 C CNN
+	1    5600 3150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2100 2650 2350 2650
+Text Label 2150 2650 0    60   ~ 0
+5V
+NoConn ~ 2100 2350
+NoConn ~ 2100 2550
+NoConn ~ 2100 3050
+NoConn ~ 8600 2000
+NoConn ~ 8600 2100
+NoConn ~ 8100 2000
+NoConn ~ 8100 1900
+NoConn ~ 8100 1000
+NoConn ~ 8100 1100
+NoConn ~ 8600 1100
+NoConn ~ 8600 1200
+NoConn ~ 3200 2150
+NoConn ~ 3200 2250
+Text Label 3250 3750 0    60   ~ 0
+5V
+Wire Wire Line
+	3200 3750 4100 3750
+Text Label 3250 1350 0    60   ~ 0
+GND
+Wire Wire Line
+	3200 1350 4100 1350
+Text Label 3250 2550 0    60   ~ 0
+SDA_5V
+Wire Wire Line
+	3200 2550 4100 2550
+$Comp
+L CONN_01X04 MCP2551_LEFT1
+U 1 1 570DC15D
+P 9350 5900
+F 0 "MCP2551_LEFT1" H 9350 6150 50  0000 C CNN
+F 1 "CONN_01X04" V 9450 5900 50  0000 C CNN
+F 2 "Socket_Strips:Socket_Strip_Straight_1x04" H 9350 5900 50  0001 C CNN
+F 3 "" H 9350 5900 50  0000 C CNN
+	1    9350 5900
+	1    0    0    -1  
+$EndComp
+$Comp
+L CONN_01X04 MCP2551_RIGHT1
+U 1 1 570DC1CE
+P 9550 5900
+F 0 "MCP2551_RIGHT1" H 9550 6150 50  0000 C CNN
+F 1 "CONN_01X04" V 9650 5900 50  0000 C CNN
+F 2 "Socket_Strips:Socket_Strip_Straight_1x04" H 9550 5900 50  0001 C CNN
+F 3 "" H 9550 5900 50  0000 C CNN
+	1    9550 5900
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	8750 5450 9050 5450
+Text Label 8800 5450 0    60   ~ 0
+SCL_3V3_TEENSY
+Wire Wire Line
+	8750 5350 9050 5350
+Text Label 8800 5350 0    60   ~ 0
+SDA_3V3_TEENSY
+Text Label 6250 1750 0    60   ~ 0
+SDA_5V
+Text Label 6250 1850 0    60   ~ 0
+SCL_5V
+Wire Wire Line
+	6100 1750 6900 1750
+Wire Wire Line
+	6100 1850 6900 1850
+Text Label 4500 1850 0    60   ~ 0
+SCL_3V3_TEENSY
+Text Label 4500 1750 0    60   ~ 0
+SDA_3V3_TEENSY
+Wire Wire Line
+	5350 1750 4400 1750
+Wire Wire Line
+	5350 1850 4400 1850
+Wire Wire Line
+	9650 4750 9800 4750
+Text Label 9650 4750 0    60   ~ 0
+TEENSY_VOLTAGE
+NoConn ~ 2100 4050
+NoConn ~ 2100 3650
+NoConn ~ 9750 6050
+Wire Wire Line
+	9150 5850 8900 5850
+Wire Wire Line
+	9150 5950 8900 5950
+Text Label 8950 5850 0    60   ~ 0
+5V
+Text Label 8950 5950 0    60   ~ 0
+GND
+Wire Wire Line
+	9750 5850 10400 5850
+Wire Wire Line
+	10200 5950 9750 5950
+Text Label 9850 5850 0    60   ~ 0
+CAN_HI
+Text Label 9850 5950 0    60   ~ 0
+CAN_LO
+$Comp
+L R R1
+U 1 1 570E45D5
+P 9950 5750
+F 0 "R1" V 10030 5750 50  0000 C CNN
+F 1 "R" V 9950 5750 50  0000 C CNN
+F 2 "Resistors_ThroughHole:Resistor_Horizontal_RM10mm" V 9880 5750 50  0001 C CNN
+F 3 "" H 9950 5750 50  0000 C CNN
+	1    9950 5750
+	0    1    -1   0   
+$EndComp
+Wire Wire Line
+	9700 5750 9800 5750
+Wire Wire Line
+	10100 5750 10250 5750
+Text Label 10150 5750 0    60   ~ 0
+GND
+Wire Wire Line
+	9150 5750 8900 5750
+Wire Wire Line
+	9150 6050 8900 6050
+Text Label 8950 5750 0    60   ~ 0
+TX_CAN
+Text Label 8950 6050 0    60   ~ 0
+RX_CAN
+Wire Wire Line
+	7750 5050 7400 5050
+Text Label 7450 5050 0    60   ~ 0
+TX_CAN
+Wire Wire Line
+	7750 5150 7400 5150
+Text Label 7450 5150 0    60   ~ 0
+RX_CAN
+$Comp
+L R R2
+U 1 1 570E5062
+P 10400 6000
+F 0 "R2" V 10480 6000 50  0000 C CNN
+F 1 "R" V 10400 6000 50  0000 C CNN
+F 2 "Resistors_ThroughHole:Resistor_Horizontal_RM10mm" V 10330 6000 50  0001 C CNN
+F 3 "" H 10400 6000 50  0000 C CNN
+	1    10400 6000
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	10200 5950 10200 6150
+Wire Wire Line
+	10200 6150 10400 6150
+Wire Wire Line
+	5400 5050 5500 5050
+Wire Wire Line
+	5400 5250 5500 5250
+Wire Wire Line
+	5400 5350 5500 5350
+Text Label 5450 5050 0    60   ~ 0
+QB
+Text Label 5450 5250 0    60   ~ 0
+QC
+Text Label 5450 5350 0    60   ~ 0
+QD
+Wire Wire Line
+	6150 5050 6500 5050
+Wire Wire Line
+	6150 4950 6250 4950
+Wire Wire Line
+	6150 5350 6250 5350
+Wire Wire Line
+	6150 5250 6250 5250
+Text Label 6200 5050 0    60   ~ 0
+CKB_QA
+Text Label 6200 4950 0    60   ~ 0
+QB
+Text Label 6200 5350 0    60   ~ 0
+QC
+Text Label 6200 5250 0    60   ~ 0
+QD
+NoConn ~ 10700 5450
+$Comp
+L CONN_01X02 P1
+U 1 1 570EA318
+P 5950 5000
+F 0 "P1" H 5950 5150 50  0000 C CNN
+F 1 "CONN_01X02" V 6050 5000 50  0000 C CNN
+F 2 "Socket_Strips:Socket_Strip_Straight_1x02" H 5950 5000 50  0001 C CNN
+F 3 "" H 5950 5000 50  0000 C CNN
+	1    5950 5000
+	-1   0    0    -1  
+$EndComp
+$Comp
+L CONN_01X02 P2
+U 1 1 570EA3C3
+P 5950 5300
+F 0 "P2" H 5950 5450 50  0000 C CNN
+F 1 "CONN_01X02" V 6050 5300 50  0000 C CNN
+F 2 "Socket_Strips:Socket_Strip_Straight_1x02" H 5950 5300 50  0001 C CNN
+F 3 "" H 5950 5300 50  0000 C CNN
+	1    5950 5300
+	-1   0    0    -1  
+$EndComp
+$Comp
+L CONN_01X02 P3
+U 1 1 570EA7AD
+P 6600 5000
+F 0 "P3" H 6600 5150 50  0000 C CNN
+F 1 "CONN_01X02" V 6700 5000 50  0000 C CNN
+F 2 "Socket_Strips:Socket_Strip_Straight_1x02" H 6600 5000 50  0001 C CNN
+F 3 "" H 6600 5000 50  0000 C CNN
+	1    6600 5000
+	-1   0    0    -1  
+$EndComp
+$Comp
+L CONN_01X02 P4
+U 1 1 570EA7B3
+P 6600 5300
+F 0 "P4" H 6600 5450 50  0000 C CNN
+F 1 "CONN_01X02" V 6700 5300 50  0000 C CNN
+F 2 "Socket_Strips:Socket_Strip_Straight_1x02" H 6600 5300 50  0001 C CNN
+F 3 "" H 6600 5300 50  0000 C CNN
+	1    6600 5300
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	6800 4950 7300 4950
+Text Label 6800 4950 0    60   ~ 0
+INTERRUPT
+Wire Wire Line
+	6800 5050 7300 5050
+Text Label 6800 5050 0    60   ~ 0
+INTERRUPT
+Wire Wire Line
+	6800 5250 7300 5250
+Text Label 6800 5250 0    60   ~ 0
+INTERRUPT
+Wire Wire Line
+	6800 5350 7300 5350
+Text Label 6800 5350 0    60   ~ 0
+INTERRUPT
+Wire Wire Line
+	9650 4850 9800 4850
+Wire Wire Line
+	9650 4950 9800 4950
+Text Label 9700 4850 0    60   ~ 0
+3V3
+Text Label 9700 4950 0    60   ~ 0
+5V
+Wire Wire Line
+	1250 4650 1500 4650
+Text Label 1300 4650 0    60   ~ 0
+5V
+Wire Wire Line
+	1250 4450 1500 4450
+Text Label 1300 4450 0    60   ~ 0
+GND
+$Comp
+L CONN_01X03 P5
+U 1 1 57102C71
+P 9450 4850
+F 0 "P5" H 9450 5050 50  0000 C CNN
+F 1 "CONN_01X03" V 9550 4850 50  0000 C CNN
+F 2 "Socket_Strips:Socket_Strip_Straight_1x03" H 9450 4850 50  0001 C CNN
+F 3 "" H 9450 4850 50  0000 C CNN
+	1    9450 4850
+	-1   0    0    -1  
+$EndComp
+Text Label 8850 4750 0    60   ~ 0
+TEENSY_VOLTAGE
+NoConn ~ 1250 4550
+$Comp
+L CONN_01X03 TERMINAL_SCREW1
+U 1 1 570EEFA9
+P 1050 4550
+F 0 "TERMINAL_SCREW1" H 1050 4750 50  0000 C CNN
+F 1 "CONN_01X03" V 1150 4550 50  0000 C CNN
+F 2 "Socket_Strips:Socket_Strip_Straight_1x03" H 1050 4550 50  0001 C CNN
+F 3 "" H 1050 4550 50  0000 C CNN
+	1    1050 4550
+	-1   0    0    -1  
+$EndComp
+$EndSCHEMATC

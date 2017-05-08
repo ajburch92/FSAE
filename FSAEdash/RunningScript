@@ -1,0 +1,8 @@
+#!/bin/bash
+
+xhost +
+
+sudo ip link set can0 up type can bitrate 500000
+
+cd fsae/FSAEdash
+sudo ./FSAEdash

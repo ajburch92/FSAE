@@ -1,0 +1,257 @@
+z#include "daq.h"
+#include <QtCore>
+#include <QFileInfo>
+
+#include "MAIN2.h"
+#include "structures.h"
+
+#define ISR_PIN 6
+
+i2cBus i2c;
+RTC rtc;
+ADC adc;
+IMU imu;
+GPS gps;
+Adafruit_INA219 ina219;
+//STORAGE storage; //duplicate in the main.cpp file
+
+ADCdata ADCdata;
+ECUdata ECUdata;
+RTCdata RTCdata;
+IMUdata IMUdata;
+THARdata THARdata;
+GPSdata GPSdata;
+INAdata INAdata;
+
+
+void interrupt();
+int count2 = 0;
+int countOverload = 0;
+int countMin = 0;
+int Speed = 0;
+int countDash =0;
+float speedCumsum =0;
+float filteredxAccel = 0;
+DAQ::DAQ(QObject *parent) :
+    QThread(parent)
+{
+    printf("starting daq thread...\n");
+    ina219.setup();
+    printf("setting up accelerometers\n");
+    imu.setupAccel();
+    printf("setting up gyros\n");
+    imu.setupGyro();
+    printf("getting time stamp...\n");
+    rtc.getTimeStamp();
+    printf("setting up storage file...\n");
+    storageInit();
+    printf ("starting square wave...\n");
+    rtc.initSKW(DS3231_1Hz);
+    delay(2000);
+    printf ("beginning interrupts ...\n ") ;
+    wiringPiSetup();
+    wiringPiISR(ISR_PIN, INT_EDGE_RISING, &interrupt);
+
+}
+
+
+void DAQ::run () {
+    while (1) {
+        QMutex mutex;
+        if (countOverload >= 100) {
+            printf("dumping data\n");
+            saveData();
+
+        }
+        mutex.lock();
+        if (this->StopThread) break;
+        mutex.unlock(); //WHEN DO I NEED THESE
+
+        if (countDash >= 5) {
+            emit onInterrupt(Speed); // emit RPM, Battery, AFR, ETC, Speed,
+            countDash = 0;
+            printf("updating dash\n");
+        }
+    }
+
+}
+
+void interrupt () {
+    //
+    //
+    countDash++;
+    countMin++;
+    countOverload++;
+    count2++;
+    printf("\ninterrupt");
+    printf(" %i ",  countOverload);
+    printf(" %i ",  countMin);
+
+    //
+    printf("getting adcs.1");
+    ADCdata.steerAngle[countOverload] = adc.getValue(1);
+    ADCdata.airSpeed[countOverload] = adc.getValue(2);
+    ADCdata.brakePressB[countOverload] = adc.getValue(3);
+    ADCdata.fuelTankLevel[countOverload] = adc.getValue(4);
+    printf(".2");
+    ADCdata.shockDispFL[countOverload] = adc.getValue(5);
+    ADCdata.shockDispFR[countOverload] = adc.getValue(6);
+    ADCdata.shockDispBR[countOverload] = adc.getValue(7);
+    ADCdata.shockDispBL[countOverload] = adc.getValue(8);
+    printf(".3");
+    ADCdata.channel9[countOverload] = adc.getValue(9);
+    ADCdata.channel10[countOverload] = adc.getValue(10);
+    ADCdata.channel11[countOverload] = adc.getValue(11);
+    ADCdata.channel12[countOverload] = adc.getValue(12);
+    printf("getting accel ");
+    IMUdata.xAccel[countOverload] = imu.getAccelValue(1);
+    IMUdata.yAccel[countOverload] = imu.getAccelValue(2);
+    IMUdata.zAccel[countOverload] = imu.getAccelValue(3);
+    printf("getting gyro");
+    IMUdata.xRot[countOverload] = imu.getGyroValue(1);
+    IMUdata.yRot[countOverload] = imu.getGyroValue(2);
+    IMUdata.zRot[countOverload] = imu.getGyroValue(3);
+    IMUdata.xRot[countOverload] = (atan2( sqrt(IMUdata.yAccel[countOverload]*IMUdata.yAccel[countOverload] + IMUdata.xAccel[countOverload]*IMUdata.xAccel[countOverload]), IMUdata.yAccel[countOverload]) * 180/M_PI);
+    IMUdata.yRot[countOverload] = atan2( sqrt(IMUdata.xAccel[countOverload]*IMUdata.xAccel[countOverload] + IMUdata.zAccel[countOverload]*IMUdata.zAccel[countOverload]), IMUdata.yAccel[countOverload]) * 180/M_PI;
+    IMUdata.yRot[countOverload] = atan2( sqrt(IMUdata.xAccel[countOverload]*IMUdata.xAccel[countOverload] + IMUdata.zAccel[countOverload]*IMUdata.zAccel[countOverload]), IMUdata.yAccel[countOverload]) * 180/M_PI;
+    printf("getting ina");
+    INAdata.brakePressF[countOverload] = ina219.getValue();
+    if (countMin >= 5) {
+        printf("getting GPS");
+        if (countOverload >= 5)
+        {
+            filteredxAccel = (IMUdata.xAccel[countOverload] + IMUdata.xAccel[countOverload-1]* .8+ IMUdata.xAccel[countOverload-2]* .6+ IMUdata.xAccel[countOverload-3]* .4+ IMUdata.xAccel[countOverload-4]*.2  )/5;
+        }
+        else {
+            filteredxAccel = IMUdata.xAccel[countOverload];
+        }
+        GPSdata.speed[countOverload] = gps.getValue(1);
+        GPSdata.speed[countOverload] = speedCumsum + 0.05*filteredxAccel;
+        speedCumsum = speedCumsum + GPSdata.speed[countOverload];
+        Speed= (int) ADCdata.shockDispBL[countOverload];////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        GPSdata.longitude[countOverload] = gps.getValue(2);
+        GPSdata.latitude[countOverload] = gps.getValue(3);
+        //    GPSdata.GPS_sentenceVector.push_back(gps.getGPSRMC());
+        printf("speed %i " , Speed);
+        //   GPSdata.speed[countOverload] = gps.getSpeed(GPSdata.GPS_sentenceVector[countOverload]);
+        // gps init is also commented out
+        countMin = 0;
+
+    }
+
+
+}
+
+
+
+
+// *******************************************************************
+// Functions for STORAGE Class
+// *******************************************************************
+
+//------------------initialization------------------
+/*
+ * sets up storage file and initializes datasets
+ *
+ * @return error_flag as boolean
+ */
+
+void DAQ::storageInit(){
+
+    //ofstream myfile;
+    // myfile.open ("Data.txt");
+    //myfile << "\n\n\n";
+    //myfile.close();
+    //return 0;
+    int i=0;
+    int run = 1;
+    FILE *stream;
+    //    char filename[] = "DAQdata1.txt";
+    //    if (fexists(RTCdata.filename) >= 1) {
+    //do nothing
+    //printf("textfile exhists");
+    //}
+    //else {
+
+    std::string startTime_minString = std::to_string(RTCdata.startTime_min);
+    std::string startTime_hourString = std::to_string(RTCdata.startTime_hour);
+    std::string startTime_dayString = std::to_string(RTCdata.startTime_day);
+    std::string startTime_monthString = std::to_string(RTCdata.startTime_month);
+    static const char* const chars[] = {"DAQdata01.txt", "DAQdata02.txt", "DAQdata03.txt", "DAQdata04.txt", "DAQdata05.txt", "DAQdata06.txt", "DAQdata07.txt", "DAQdata08.txt", "DAQdata09.txt", "DAQdata10.txt", "DAQdata11.txt", "DAQdata12.txt", "DAQdata13.txt", "DAQdata14.txt", "DAQdata15.txt", "DAQdata16.txt", "DAQdata17.txt", "DAQdata18.txt", "DAQdata19.txt", "DAQdata20.txt","DAQdata21.txt", "DAQdata22.txt", "DAQdata23.txt", "DAQdata24.txt", "DAQdata25.txt", "DAQdata26.txt", "DAQdata27.txt", "DAQdata28.txt", "DAQdata29.txt", "DAQdata30.txt", "DAQdata31.txt", "DAQdata32.txt", "DAQdata33.txt", "DAQdata34.txt", "DAQdata35.txt", "DAQdata36.txt", "DAQdata37.txt", "DAQdata38.txt", "DAQdata39.txt", "DAQdata40.txt"};
+
+    RTCdata.filename = "DAQdata" + startTime_monthString + "  "  + startTime_dayString +startTime_hourString + " " + startTime_hourString + ".txt";
+
+
+    //const char *c = RTCdata.filename.c_str();
+
+    while (run >= 1 ) {
+        if (fileExists(chars[i]) == true) {
+            printf("textfile exhists");
+            //RTCdata.filename = "DAQdata" + startTime_monthString + "  "  + startTime_dayString +startTime_hourString + " " + startTime_hourString + startTime_minString + std::to_string(i) + ".txt";
+            //const char * c = RTCdata.filename.c_str();
+            i++;
+        }
+        else {
+            printf("no exhisting file");
+            run = 0;
+        }
+    }
+    std::string s = chars[i];
+    RTCdata.filename = s;
+    stream = fopen(chars[i],"a+"); // adjust to format title as DAQdata_*date*
+    fprintf(stream, "%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,\n", "ADC.steerAngle", "ADC.airSpeed", "ADC.brakePressB", "ADC.fuelTankLevel", "ADC.shockDispFL", "ADC.shockDispFR", "ADC.shockDispBR", "ADC.shockDispBL", "ADC.channel9", "ADC.channel10", "ADC.channel11", "ADC.channel12", "INA.brakePressF", "IMU.xAccel", "IMU.yAccel", "IMU.zAccel", "IMU.xRot", "IMU.yRot", "IMU.zRot", "IMU.temp", "GPS.GPSRMCsentance", "GPS.speed");
+    fclose (stream);
+
+    printf("txt file initialized\n");
+    //}
+
+}
+
+
+//------------------Save Data Set------------------
+/*
+ * saves the current data set to sd card's text file
+ *
+ * @return error_flag as boolean
+ */
+
+void DAQ::saveData(){
+
+    countOverload = 0;
+    FILE *stream;
+    k=0;
+    //char filename2[] = "DAQdata1.txt";
+    for (k=0; k<=99; k++ ) {
+        printf("%i", k);
+        //    if (fexists(filename2) >=1) {
+        //	stream = fopen("DAQdata2.txt","a+");
+        //    }
+        //    else {
+        //stream = fopen("DAQdata1.txt","a+"); // adjust to format title as DAQdata_*date*
+        //const char * c = RTCdata.filename.c_str();
+
+        const char *a = RTCdata.filename.c_str();
+
+        stream = fopen(a,"a+"); // adjust to format title as DAQdata_*date*
+
+        //    }
+
+        fprintf(stream, "%f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f\n", ADCdata.steerAngle[k], ADCdata.airSpeed[k], ADCdata.brakePressB[k], ADCdata.fuelTankLevel[k], ADCdata.shockDispFL[k], ADCdata.shockDispFR[k], ADCdata.shockDispBR[k], ADCdata.shockDispBL[k], ADCdata.channel9[k], ADCdata.channel10[k], ADCdata.channel11[k], ADCdata.channel12[k], INAdata.brakePressF[k], IMUdata.xAccel[k], IMUdata.yAccel[k], IMUdata.zAccel[k], IMUdata.xRot[k], IMUdata.yRot[k], IMUdata.zRot[k], GPSdata.speed[k]);//, GPS.GPSRMC_sentence[k], GPS.speed[k]);
+        fclose(stream);
+    }
+
+    //printf("clearing gps");
+    //GPSdata.GPS_sentenceVector.clear(); //clear gps vector
+    printf("data save complete\n");
+}
+
+bool DAQ::fileExists(QString path) {
+    QFileInfo check_file(path);
+    //check if file exhists and if yes, is it really a file and no directory?
+    if (check_file.exists() && check_file.isFile())  {
+        return true;
+    }
+    else {
+        return false;
+    }
+}

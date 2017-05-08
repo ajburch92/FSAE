@@ -1,0 +1,13 @@
+#!/bin/bash
+
+
+xhost +
+
+sudo ip link set can0 up type can bitrate 500000
+
+
+cd fsae/fsae/FSAEdash
+sudo ./FSAEdash
+
+#cd fsae/fsae/DAQonly
+#sudo ./daqtest1hz

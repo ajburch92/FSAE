@@ -1,0 +1,94 @@
+
+(rules PCB FSAE
+  (snap_angle 
+    fortyfive_degree
+  )
+  (autoroute_settings
+    (fanout off)
+    (autoroute on)
+    (postroute on)
+    (vias on)
+    (via_costs 50)
+    (plane_via_costs 5)
+    (start_ripup_costs 100)
+    (start_pass_no 1829)
+    (layer_rule F.Cu
+      (active on)
+      (preferred_direction horizontal)
+      (preferred_direction_trace_costs 1.0)
+      (against_preferred_direction_trace_costs 2.3)
+    )
+    (layer_rule B.Cu
+      (active on)
+      (preferred_direction vertical)
+      (preferred_direction_trace_costs 1.0)
+      (against_preferred_direction_trace_costs 1.7)
+    )
+  )
+  (rule
+    (width 250.0)
+    (clear 250.2)
+    (clear 125.0 (type smd_to_turn_gap))
+    (clear 62.6 (type smd_smd))
+  )
+  (padstack "Via[0-1]_600:400_um"
+    (shape
+      (circle F.Cu 600.0 0.0 0.0)
+    )
+    (shape
+      (circle B.Cu 600.0 0.0 0.0)
+    )
+    (attach off)
+  )
+  (via 
+    "Via[0-1]_600:400_um" "Via[0-1]_600:400_um" default
+  )
+  (via 
+    "Via[0-1]_600:400_um-kicad_default" "Via[0-1]_600:400_um" "kicad_default"
+  )
+  (via_rule
+    default "Via[0-1]_600:400_um"
+  )
+  (via_rule
+    "kicad_default" "Via[0-1]_600:400_um-kicad_default"
+  )
+  (class default
+    (clearance_class default)
+    (via_rule default)
+    (rule
+      (width 250.0)
+    )
+    (circuit 
+      (use_layer F.Cu B.Cu)
+    )
+  )
+  (class "kicad_default"
+    /5V /GND "/SCL_5V" "/SDA_5V" /3V3 "/SPI_CE0" "/SPI_MISO" "/SPI_MOSI"
+    "/SPI_SCLK" /INT "Net-(CONNECTOR1-Pad6)" "/SDA_3V3" "/SCL_3V3" "Net-(CONNECTOR2-Pad4)" "/CAN_HI" "/CAN_LO"
+    "Net-(CONNECTOR2-Pad8)" "/DASH_BUTTON_SR" "Net-(CONNECTOR3-Pad5)" "Net-(CONNECTOR4-Pad8)" "Net-(CONNECTOR5-Pad1)" "Net-(CONNECTOR5-Pad2)" "Net-(CONNECTOR5-Pad5)" "Net-(CONNECTOR5-Pad6)"
+    "Net-(CONNECTOR5-Pad9)" "Net-(CONNECTOR5-Pad10)" "Net-(GPS1-Pad1)" "Net-(GPS1-Pad2)" "Net-(GPS1-Pad3)" "Net-(GPS1-Pad4)" "/RX(RPI)" "/TX(RPI)"
+    "Net-(GPS1-Pad9)" "Net-(LC1_3V3-Pad2)" "/DASH_LED_SR_3V3" "Net-(LC1_5V1-Pad2)" "Net-(LC2_3V3-Pad2)" "Net-(LC2_3V3-Pad3)" "Net-(LC2_5V1-Pad2)" "Net-(LC2_5V1-Pad3)"
+    "Net-(CONNECTOR1-Pad9)" "Net-(12_BIT_ADC1-Pad6)" "/FR_SHOCK_POT_5V_OUT" "/FL_SHOCK_POT_5V_OUT" "/BR_SHOCK_POT_5V_OUT" "/BL_SHOCK_POT_5V_OUT" "Net-(16_BIT_ADC_1-Pad6)" "/FUEL_OUT"
+    "/REAR_BRAKE_+_OUT" "/REAR_BRAKE_-_OUT" "Net-(16_BIT_ADC_1-Pad10)" "Net-(16_BIT_ADC_2-Pad6)" "/PITOT_TUBE_OUT" "/STEERING_SIGNAL_OUT" "/REAR_BREAK_-_OUT" "/BL_SHOCK_POT_5V_IN"
+    "/FRONT_BRAKE_+_IN" "/BR_SHOCK_POT_5V_IN" "/FRONT_BRAKE_-_IN" "/FL_SHOCK_POT_5V_IN" "/REAR_BRAKE_+_IN" "/FR_SHOCK_POT_5V_IN" "/REAR_BREAK_-_IN" "/FUEL_IN"
+    "/STEERING_SIGNAL_IN" "/PITOT_TUBE_IN" "Net-(CONNECTOR2-Pad2)" "Net-(CONNECTOR3-Pad1)" "Net-(CONNECTOR3-Pad3)" "Net-(LC1_3V3-Pad3)" "Net-(LC1_5V1-Pad3)" /32K
+    "Net-(TENNSY_BOTTOM1-Pad1)" "Net-(TENNSY_BOTTOM1-Pad2)" "Net-(TENNSY_BOTTOM1-Pad3)" "Net-(TENNSY_BOTTOM1-Pad4)" "Net-(TENNSY_BOTTOM1-Pad5)" "Net-(TENNSY_LEFT1-Pad2)" "Net-(TENNSY_LEFT1-Pad3)" "Net-(TENNSY_LEFT1-Pad6)"
+    "Net-(TENNSY_LEFT1-Pad7)" "Net-(TENNSY_LEFT1-Pad8)" "Net-(TENNSY_LEFT1-Pad9)" "Net-(TENNSY_LEFT1-Pad10)" "Net-(TENNSY_LEFT1-Pad11)" "Net-(TENNSY_LEFT1-Pad12)" "Net-(TENNSY_LEFT1-Pad13)" "Net-(TENNSY_LEFT1-Pad14)"
+    "Net-(TENNSY_RIGHT1-Pad2)" "Net-(TENNSY_RIGHT1-Pad3)" "Net-(TENNSY_RIGHT1-Pad4)" "Net-(TENNSY_RIGHT1-Pad5)" "Net-(TENNSY_RIGHT1-Pad6)" "Net-(TENNSY_RIGHT1-Pad9)" "Net-(TENNSY_RIGHT1-Pad10)" "Net-(TENNSY_RIGHT1-Pad11)"
+    "Net-(TENNSY_RIGHT1-Pad12)" "Net-(TENNSY_RIGHT1-Pad13)" "Net-(TENNSY_RIGHT1-Pad14)" "Net-(ANALOG_FILTER_IN1-Pad2)" "Net-(ANALOG_FILTER_IN1-Pad5)" "Net-(ANALOG_FILTER_OUT1-Pad2)" "Net-(ANALOG_FILTER_OUT1-Pad5)" "Net-(ANALOG_FILTER_IN1-Pad7)"
+    "Net-(ANALOG_FILTER_OUT1-Pad7)" "/CKB_QA" "Net-(DIVIDER_LEFT1-Pad2)" "Net-(DIVIDER_LEFT1-Pad3)" "Net-(DIVIDER_LEFT1-Pad4)" "Net-(DIVIDER_LEFT1-Pad6)" "Net-(DIVIDER_LEFT1-Pad7)" /SQW
+    "Net-(DIVIDER_RIGHT1-Pad2)" /INTERRUPT "Net-(RP1-Pad1)" "Net-(RP1-Pad2)" "Net-(RP1-Pad3)" "Net-(RP1-Pad5)" "Net-(RP1-Pad8)" "Net-(RP1-Pad11)"
+    "Net-(RP1-Pad12)" "Net-(RP1-Pad13)" "Net-(RP1-Pad14)" "Net-(RP1-Pad15)" "Net-(RP1-Pad18)" "Net-(RP1-Pad19)" "Net-(RP1-Pad25)" "Net-(RP1-Pad26)"
+    "Net-(16_BIT_ADC_1-Pad8)" "Net-(16_BIT_ADC_1-Pad9)" "Net-(ANALOG_FILTER_IN1-Pad8)" "Net-(ANALOG_FILTER_IN1-Pad10)" "Net-(ANALOG_FILTER_OUT1-Pad8)" "Net-(ANALOG_FILTER_OUT1-Pad10)" "Net-(CONNECTOR3-Pad4)" "Net-(CONNECTOR3-Pad8)"
+    "Net-(CONNECTOR4-Pad4)" /QB /QC /QD "/SCL_3V3_TEENSY" "/SDA_3V3_TEENSY" "/TX_CAN" "/RX_CAN"
+    "Net-(MCP2551_RIGHT1-Pad1)" "Net-(MCP2551_RIGHT1-Pad4)" "Net-(R1-Pad2)" "/TEENSY_VOLTAGE" "Net-(TERMINAL_SCREW1-Pad2)"
+    (clearance_class "kicad_default")
+    (via_rule kicad_default)
+    (rule
+      (width 250.0)
+    )
+    (circuit 
+      (use_layer F.Cu B.Cu)
+    )
+  )
+)

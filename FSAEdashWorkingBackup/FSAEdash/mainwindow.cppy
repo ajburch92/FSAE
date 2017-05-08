@@ -1,0 +1,557 @@
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
+#include <wiringPi.h>
+#include <sr595.h>
+
+#include "structures.h"
+#include "MAIN2.h"
+
+///how to make this bitch run//
+//go to th`e projects tab on the left//
+//uncheck shadow build//
+//run program//
+//but program will not run//
+//re check the shadow build shit//
+//run program///
+//succmotherfuckingsess!!!!//
+
+
+///////////////////////////////////////////////////
+//Variables//
+///////////////////////////////////////////////////
+
+
+int engineTemp=200; //temperature of coolant
+int speed=0;    //speed
+int RPM=0;  //RPM
+int batt=12;    //battery volatge
+int gas=79;     //percent gas in tank
+int oilTemp=120; //oil temperature
+int gear=1;     //gear the car is in
+int dial=1;     //screen preference dial
+double lTime=0.00;   //lap time
+int speedStall = 0;
+int ETCStall = 0;
+
+
+int neutral=0;
+
+double testc=0;
+
+///intitializing test variabelsa
+float value0=0;
+float value1=0;
+float value2=0;
+float value3=0;
+
+
+int count2 = 0;
+int countOverload = 0;
+
+
+
+
+i2cBus i2c;
+RTC rtc;
+ADC adc;
+IMU imu;
+GPS gps;
+GPIO gpio;
+//STORAGE storage; //duplicate in the main.cpp file
+Adafruit_INA219 ina219;
+//Dash_LED led;
+
+
+
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::MainWindow)
+{
+    ui->setupUi(this);
+
+    QMainWindow::showFullScreen();
+    this->setWindowFlags(Qt::FramelessWindowHint);
+    timer= new QTimer(this);
+
+    /////////set up message colors and shit//////
+
+    ui->MessageM->setTextColor(Qt::red);
+                ui->MessageM->setFontPointSize(26);
+                ui->MessageM->setTextColor(Qt::red);
+                ui->MessageM->setFontPointSize(26);
+                ui->MessageS->setTextColor(Qt::white);
+                ui->MessageS->setFontPointSize(26);
+                ui->tabWidget->setCurrentIndex(1);
+
+
+
+
+
+
+
+
+                ADCdata ADCdata;
+                ECUdata ECUdata;
+                RTCdata RTCdata;
+                IMUdata IMUdata;
+                THARdata THARdata;
+                GPSdata GPSdata;
+                INAdata INAdata;
+
+
+
+    connect(timer, SIGNAL(timeout()), this, SLOT(update()));
+    timer->start(100);
+
+    
+    setupPins(); //Initialize pins
+
+
+}
+   MainWindow::~MainWindow()
+  {
+   delete ui;
+   }
+ void MainWindow::update(void)
+ {
+    Dash_LED led1;
+     //////////////////////////////////////////////////////
+            ////////////////Set Widget Numbers///////////////////
+            ////////////////////////////////////////////////////
+                ///Dynamic 1//
+                ui->enginetemp->display(engineTemp);
+                ui->RPMnumber->display(RPM);
+                ui->Speed->display(speed);
+                ui->gearnumber->display(gear);
+                ui->LapTime->display(lTime);
+                ui->gas->setValue(gas);
+
+                //Dynamic 2///
+                ui->progressBar->setValue(RPM);
+                ui->enginetemp_2->display(engineTemp);
+                ui->Speed_2->display(speed);
+                ui->gearnumber_2->display(gear);
+                ui->LapTime_4->display(lTime);
+                ui->gas_2->setValue(gas);
+
+                //static//
+                ui->BattS->display(batt);
+                ui->CoolantTempS->display(engineTemp);
+                ui->EngineSpeedS->display(RPM);
+                ui->GasS->display(gas);
+                ui->OilTempS->display(oilTemp);
+
+                ///test screen///
+                ui->ch1->display(value0);
+                ui->ch2->display(value1);
+                ui->ch3->display(value2);
+                ui->ch4->display(value3);
+
+
+            //////////////////////////////////////////////////////
+            ////////////////Set RPM Lights///////////////////////
+            ////////////////////////////////////////////////////
+                if(neutral==1){
+                    if(RPM>=4000)
+                    {
+                        led.all_LED_control(0b10000011);
+                    }
+                    else{
+                        led.all_LED_control(0b00000001);
+                    }
+
+                    if(RPM>=6000)
+                    {
+                        led.all_LED_control(0b11000111);
+                    }
+                    else{
+                        led.all_LED_control(0b10000011);
+                    }
+
+
+                    if(RPM>8000)
+                    {
+                       led.all_LED_control(0b11101111);
+                    }
+                    else{
+                        led.all_LED_control(0b11000111);
+                    }
+                    if(RPM>=10500)
+                    {
+                       led.all_LED_control(0b11111111);
+                    }
+                    else{
+                        led.all_LED_control(0b11101111);
+                    }
+                }
+
+                if(neutral==0){
+                    if(RPM>=4000)
+                    {
+                        led.all_LED_control(0b10000010);
+                    }
+                    else{
+                        led.all_LED_control(0b00000000);
+                    }
+
+                    if(RPM>=6000)
+                    {
+                        led.all_LED_control(0b11000110);
+                    }
+                    else{
+                        led.all_LED_control(0b10000010);
+                    }
+
+
+                    if(RPM>=8000)
+                    {
+                       led.all_LED_control(0b11101110);
+                    }
+                    else{
+                        led.all_LED_control(0b11000110);
+                    }
+                    if(RPM>=10500)
+                    {
+                       led.all_LED_control(0b11111110);
+                    }
+                    else{
+                        led.all_LED_control(0b11101110);
+                    }
+                }
+
+             ////////////////////////////////////////////////////
+             /////////////////Read Screen Selection/////////////
+            ///////////////////////////////////////////////////
+
+                dial=digitalRead(5); //screen select wiring pi
+
+
+            /////////////////////////////////////////////////////
+            ///////////// Message Stuff/////////////////////////
+            ///////////////////////////////////////////////////
+
+                if (engineTemp>240)
+                {
+
+                    ui->MessageS->setPlainText("Engine is too hot");
+                    ui->MessageM->setPlainText("Engine is too hot");
+                    ui->MessageM_2->setPlainText("Engine is too hot");
+
+                }
+                else
+                    if(RPM>15000)
+                    {
+
+                        ui->MessageS->setPlainText("Too Accelerated: Let off Throttle");
+                        ui->MessageM->setPlainText("Too Accelerated: Let off Throttle");
+                        ui->MessageM_2->setPlainText("Too Accelerated: Let off Throttle");
+
+                    }
+                    else
+                        if(oilTemp>250)
+                        {
+
+                            ui->MessageS->setPlainText("Oil Too Hot");
+                            ui->MessageM->setPlainText("Oil Too Hot");
+                            ui->MessageM_2->setPlainText("Oil Too Hot");
+
+                        }
+                        else
+                            if(batt>14 || batt<9)
+                            {
+
+                                ui->MessageS->setPlainText("Check Battery");
+                                ui->MessageM->setPlainText("Check Battery");
+                                ui->MessageM_2->setPlainText("Check Battery");
+
+                            }
+                            else
+                                if(gas<10)
+                                {
+
+                                    ui->MessageS->setPlainText("Put More Gas!!");
+                                    ui->MessageM->setPlainText("Put More Gas!!");
+                                    ui->MessageM_2->setPlainText("Put More Gas!!");
+
+                                }
+                                else
+                                    {
+
+                                        ui->MessageS->setPlainText("Ready to Drive");
+
+                                }
+
+
+                ///////////////////////////////////////////////////
+                ///////////Screen Changes/////////////////////////
+                /////////////////////////////////////////////////
+
+                if(speed >= 1)
+                {
+                    if(dial==0){
+
+                        ui->tabWidget->setCurrentIndex(1);
+
+                    }
+                    if(dial==1){
+                        ui->tabWidget->setCurrentIndex(2);
+
+                        //set rpm color//
+                        if (RPM<= 7000) {
+                            ui->progressBar->setStyleSheet("selection-background-color: rgb(0, 255, 0);");
+                        }
+                        if(RPM>7000){
+                            ui->progressBar->setStyleSheet("selection-background-color: rgb(255, 255, 0);");
+                        }
+                        if(RPM>10000){
+                            ui->progressBar->setStyleSheet("selection-background-color: rgb(255, 0, 0);");
+                        }
+                    }
+
+                }
+
+                else {
+                    //show the stopped screen//
+                    ui->tabWidget->setCurrentIndex(0);
+                }
+
+                //test screen stuff//
+
+                if (testc==1){
+                    ui->tabWidget->setCurrentIndex(3);
+                }
+
+////////////////////////////simulation updates//////////////////////////////////////////
+
+
+
+                    if(speed<=0)
+                    {
+                        RPM = RPM + 13;
+                        if (RPM <= 1000){
+
+                        }
+                        else {
+                        speed = speed++;
+                    }
+                    }
+
+                    if(speed >=1){
+                        RPM = RPM  + 177;
+                        speedStall = speedStall + 1;
+                        ETCStall = ETCStall + 1;
+                        lTime = lTime + .1;
+                        if (speedStall >= 4) {
+                            speedStall = 0;
+                            speed = speed++;
+                        }
+                        if (ETCStall >= 8) {
+                            ETCStall = 0;
+                            engineTemp = engineTemp+ 5;
+                        }
+                        if (ETCStall <= 2) {
+                            engineTemp = engineTemp - 1;
+                        }
+                        if (RPM >= 12000) {
+                            RPM = 4000;
+                            gear = gear + 1;
+                            if (gear >= 6) {
+                                gear = 1;
+                                speed = 0;
+                                RPM = 0;
+                                engineTemp = 200;
+                                lTime = 0;
+                            }
+                            }
+                        }
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+
+ }
+
+
+
+void MainWindow::setupPins()
+{
+    wiringPiSetup ();
+    pinMode(5, INPUT);
+//    system("gpio mode 6 in");
+//    wiringPiSetupSys();
+    qDebug("Pins setup finalized");
+    
+}
+
+//*******************************************************************
+//Functions for STORAGE Class
+//*******************************************************************
+
+//------------------initialization------------------
+/*
+ * sets up storage file and initializes datasets
+ *
+ * @return error_flag as boolean
+ */
+
+void MainWindow::storageInit(){
+    
+    //ofstream myfile;
+    // myfile.open ("Data.txt");
+    //myfile << "\n\n\n";
+    //myfile.close();
+    //return 0;
+    
+    FILE *stream;
+    stream = fopen("DAQdata.txt","w+"); // adjust to format title as DAQdata_*date*
+    fprintf(stream, "%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,\n", "ADC.steerAngle", "ADC.airSpeed", "ADC.brakePressB", "ADC.fuelTankLevel", "ADC.shockDispFL", "ADC.shockDispFR", "ADC.shockDispBR", "ADC.shockDispBL", "ADC.channel9", "ADC.channel10", "ADC.channel11", "ADC.channel12", "ECU.engineTemp", "ECU.waterTemp", "ECU.rpm", "ECU.throttlePos", "ECU.oilTemp", "ECU.oilPress", "ECU.lambda", "IMU.xAccel", "IMU.yAccel", "IMU.zAccel", "IMU.xRot", "IMU.yRot", "IMU.zRot", "IMU.temp", "GPS.GPSRMCsentance", "GPS.speed", "THAR.data", "RTC.interval", "RTC.startTime", "RTC.elapsedTime","RTC.timeStamp");
+    fclose (stream);
+    printf("txt file initialized\n");
+    
+    
+}
+
+
+//------------------Save Data Set------------------
+/*
+ * saves the current data set to sd card's text file
+ *
+ * @return error_flag as boolean
+ */
+
+void MainWindow::storageSave(ADCdata &ADCdata, IMUdata &IMUdata, GPSdata &GPSdata, ECUdata &ECUdata){
+    FILE *stream;
+    int i=0;
+    stream = fopen("DAQdata.txt","a"); // adjust to format title as DAQdata_*date*
+    
+    for (i=0; i>=1023; i++ ) {
+        printf("countinloop = %i", i);
+        fprintf(stream, "%f", ADCdata.shockDispFL[i]);
+        fprintf(stream, " %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f\n", ADCdata.steerAngle[i], ADCdata.airSpeed[i], ADCdata.brakePressB[i], ADCdata.fuelTankLevel[i], ADCdata.shockDispFL[i], ADCdata.shockDispFR[i], ADCdata.shockDispBR[i], ADCdata.shockDispBL[i], ADCdata.channel9[i], ADCdata.channel10[i], ADCdata.channel11[i], ADCdata.channel12[i], ECUdata.engineTemp[i], ECUdata.waterTemp[i], ECUdata.rpm[i], ECUdata.throttlePos[i], ECUdata.oilTemp[i], ECUdata.oilPress[i], ECUdata.lambda[i], IMUdata.xAccel[i], IMUdata.yAccel[i], IMUdata.zAccel[i], IMUdata.xRot[i], IMUdata.yRot[i], IMUdata.zRot[i], IMUdata.temp[i]);//, GPS.GPSRMC_sentence[i], GPS.speed[i]);//, THAR.data, RTC.interval, RTC.startTime, RTC.elapsedTime, RTC.timeStamp);
+        // accesss char using pointer within structured array
+        fclose(stream);
+        printf("count = %i",i);
+    }
+    printf("count = %i",i);
+    GPSdata.GPS_sentenceVector.clear(); //clear gps vector
+    printf("data save complete\n");
+    
+}
+
+void MainWindow::interrupt(ADCdata &ADCdata, IMUdata &IMUdata, GPSdata &GPSdata)
+{
+    qDebug("ISR called");
+    
+    
+    countOverload++;
+    count2++;
+    
+    
+    ADCdata.shockDispFL[countOverload] = adc.getValue(5);
+    ADCdata.shockDispFR[countOverload] = adc.getValue(6);
+    ADCdata.shockDispBR[countOverload] = adc.getValue(7);
+    ADCdata.shockDispBL[countOverload] = adc.getValue(8);
+    printf(" \n ");
+    //IMUdata.xAccel[countOverload] = imu.getAccelValue(1);
+    //IMUdata.yAccel[countOverload] = imu.getAccelValue(2);
+    //IMUdata.zAccel[countOverload] = imu.getAccelValue(3);
+    printf("\n ");
+    //    IMUdata.xRot[countOverload] = imu.getGyroValue(1);
+    //    IMUdata.yRot[countOverload] = imu.getGyroValue(2);
+    //    IMUdata.zRot[countOverload] = imu.getGyroValue(3);
+    //INAdata.brakePressF[countOverload] = ina219.getValue();
+    
+    printf("getting GPS");
+    
+    //  GPSdata.GPS_sentenceVector.push_back(gps.getGPSRMC());
+    //GPS_sentence.copy(GPSdata.GPSRMC_sentence[countOverload], sizeof GPSdata.GPSRMC_sentence[countOverload]);
+    printf("get Speed");
+    //  GPSdata.speed[countOverload] = gps.getSpeed(GPSdata.GPS_sentenceVector[countOverload]);
+    
+    // printf("stored value: %f, %f ",  GPSdata.speed[countOverload], ADCdata.shockDispFL[countOverload]);
+    
+    printf("interrupt");
+    printf(" %i \n",  countOverload);
+    
+    
+    update();
+    
+    
+    QString message;
+    message.sprintf("interrupt");
+
+}
+
+void MainWindow::methodsmain(ADCdata &ADCdata, IMUdata &IMUdata, GPSdata &GPSdata,RTCdata &RTCdata, ECUdata &ECUdata) {
+
+   printf("starting\n");
+   //ina219.setup();
+    storageInit();
+    //imu.setupAccel();
+    //imu.setupGyro();
+    gps.init();
+    //rtc.getTimeStamp();
+
+
+
+    //GPIO test_instance(BUTTON_PIN, INT_EDGE_FALLING) ;
+    //test_instance.isrInit();
+
+
+    printf ("GPS Initialized\n ") ;
+    rtc.initSKW(DS3231_1Hz);
+    printf ("Waiting ...\n ") ;
+
+    delay(5000);
+
+    gpio.isrInit();
+    printf ("Begin Interrupts ...\n ") ;
+
+    while(1)	{
+
+        if (countOverload >= 1024) {
+            printf("dumping data\n");
+            storageSave(ADCdata , IMUdata , GPSdata  , ECUdata);
+            GPSdata.GPS_sentenceVector.clear();
+        countOverload = 0;
+        }
+    }
+
+    /*
+    GPS gps;
+    gps.init();
+    while(1){
+        std::string output = gps.getGPSRMC();
+        //int speed = gps.printspeed(output);
+        std::cout<<output<<"\n";
+        int speed = gps.getSpeed(output);
+        std::cout<<speed<<"\n";
+
+        usleep(1000);
+    }
+
+*/
+    // detach interrupt
+    //system ("/usr/local/bin/gpio edge 6 none") ; // what is this pin? this just disables GPIO, wiring pi has no built in function for this.
+
+
+    /*
+     So to disable interrupts - well, there's no easy built-in way, but this will work:
+
+     system ("/usr/local/bin/gpio edge 17 none") ;
+
+     and to allow them again:
+
+     system ("/usr/local/bin/gpio edge 17 rising") ;
+
+
+    for (k=0; k<1023; ++k) {
+        printf("%x  %d  %f\n", secondBuffer[k], countBuffer[k], adcBuffer[k]);
+
+    }
+
+    printf("%d\n" , k);
+    printf("%d" , count2);
+
+    */
+}
